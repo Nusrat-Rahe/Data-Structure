@@ -1,0 +1,11 @@
+// C++ program to sort a string of characters
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    string s = "geeksforgeeks";    
+    sort(s.begin(), s.end());
+    cout << s;
+    return 0;
+}
