@@ -1,0 +1,68 @@
+#include <iostream>
+#include <algorithm> // For qsort
+using namespace std;
+
+// Structure to store value and original index
+struct Pair {
+    int value;
+    int index;
+};
+
+// Comparison function for sorting
+int compare(const void* a, const void* b) {
+    return ((Pair*)a)->value - ((Pair*)b)->value;
+}
+
+int minSwaps(int arr[], int n) {
+    Pair* arrPos = new Pair[n];
+    bool* visited = new bool[n];
+
+    // Store elements and their original indexes
+    for (int i = 0; i < n; i++) {
+        arrPos[i].value = arr[i];
+        arrPos[i].index = i;
+        visited[i] = false;
+    }
+
+    // Sort based on the element values
+    qsort(arrPos, n, sizeof(Pair), compare);
+
+    int swaps = 0;
+
+    for (int i = 0; i < n; i++) {
+        // If already visited or in correct position
+        if (visited[i] || arrPos[i].index == i)
+            continue;
+
+        int cycle_size = 0;
+        int j = i;
+
+        // Find out the cycle of indexes
+        while (!visited[j]) {
+            visited[j] = true;
+            j = arrPos[j].index;
+            cycle_size++;
+        }
+
+        if (cycle_size > 0) {
+            swaps += (cycle_size - 1);
+        }
+    }
+
+    delete[] arrPos;
+    delete[] visited;
+
+    return swaps;
+}
+
+int main() {
+    int arr1[] = {2, 8, 5, 4};
+    int size1 = sizeof(arr1) / sizeof(arr1[0]);
+    cout << "Minimum swaps (Example 1): " << minSwaps(arr1, size1) << endl;
+
+    int arr2[] = {10, 19, 6, 3, 5};
+    int size2 = sizeof(arr2) / sizeof(arr2[0]);
+    cout << "Minimum swaps (Example 2): " << minSwaps(arr2, size2) << endl;
+
+    return 0;
+}
