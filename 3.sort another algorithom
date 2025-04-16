@@ -1,0 +1,36 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n;
+    cout << "Total Characters: ";
+    cin >> n;
+
+    char letters[100];
+    cout << "Enter " << n << " characters:\n";
+    for (int i = 0; i < n; i++) {
+        cin >> letters[i];
+    }
+
+    for (int i = 0; i < n - 1; i++) {
+        int minIndex = i;
+        for (int j = i + 1; j < n; j++) {
+            if (letters[j] < letters[minIndex]) {
+                minIndex = j;
+            }
+        }
+        if (minIndex != i) {
+            char temp = letters[i];
+            letters[i] = letters[minIndex];
+            letters[minIndex] = temp;
+        }
+    }
+
+    cout << "Sorted characters:\n";
+    for (int i = 0; i < n; i++) {
+        cout << letters[i] << " ";
+    }
+
+    cout << endl;
+    return 0;
+}
